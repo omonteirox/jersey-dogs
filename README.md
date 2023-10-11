@@ -6,8 +6,10 @@ Aprendendo a trabalhar com jersey
 - Criação do DogController
 - Criação do modelo
 - Configuração do banco de dados
+- Criando a classe de Serviços
+- Relacionamento 1-n criado
 
 # O que falta fazer?
 - Configurar Exceptions Personalizadas
 - Padronizar os retornos
-- Retirar responsabilidade de acesso ao banco de dados da classe Controller
+
