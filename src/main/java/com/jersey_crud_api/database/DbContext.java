@@ -9,7 +9,7 @@ public class DbContext {
 	private static final String driver = "org.postgresql.Driver";
 	private static final String username = "postgres";
 	private static final String password = "1234";
-	private static final String url = "jdbc:postgresql://localhost:5432/apijava8teste";
+	private static final String url = "jdbc:postgresql://localhost:5432/apijersey";
 	
 	public static Connection Connect() {
 		Connection connection = null;
@@ -42,7 +42,7 @@ public class DbContext {
 		try {
 			resultSet.close();
 		} catch (Exception e) {
-			System.err.println("Erro ao fechar preparedStatement -> " + e.getMessage());
+			System.err.println("Erro ao fechar ResultSet -> " + e.getMessage());
 		}
 		
 	}
