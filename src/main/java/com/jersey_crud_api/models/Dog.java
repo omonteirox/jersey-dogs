@@ -2,10 +2,12 @@ package com.jersey_crud_api.models;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 
-public class Dog implements Serializable{
+import com.jersey_crud_api.utils.NotificationUtils;
 
-	
+public class Dog extends NotificationUtils implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String name;
@@ -24,7 +26,10 @@ public class Dog implements Serializable{
 	public Date getBirthDate() {
 		return birthDate;
 	}
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(Date birthDate){
+		if (LocalDate.now().isBefore(birthDate.toLocalDate())) {
+			getNotifications().add("A data de nascimento não pode ser em um dia futuro");
+		}
 		this.birthDate = birthDate;
 	}
 	public String getRace() {

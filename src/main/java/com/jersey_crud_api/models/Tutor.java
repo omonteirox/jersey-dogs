@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tutor implements Serializable {
+import com.jersey_crud_api.utils.NotificationUtils;
+
+public class Tutor extends NotificationUtils  implements Serializable {
 
 	public Tutor() {
 		this.dogs = new ArrayList<Dog>();
