@@ -8,8 +8,11 @@ Aprendendo a trabalhar com jersey
 - Configuração do banco de dados
 - Criando a classe de Serviços
 - Relacionamento 1-n criado
+- Sistema de notificações para erros
+- Exception de Banco criada
+- Retornos padronizados
 
 # O que falta fazer?
-- Configurar Exceptions Personalizadas
-- Padronizar os retornos
+- Adicionar autenticação JWT
+
 
