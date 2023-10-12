@@ -13,15 +13,20 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.jersey_crud_api.dao.DAOFactory;
+import com.jersey_crud_api.dao.DogDAO;
 import com.jersey_crud_api.models.Dog;
 import com.jersey_crud_api.models.ModelResponse;
-import com.jersey_crud_api.services.DogService;
 
 @Path("dogs")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class DogController {
-	private DogService dogService = new DogService();
+	
+	private DogDAO dogService ;
+	public DogController() {
+		dogService = DAOFactory.createDogDAO();
+	}
 	
 	@POST
 	public Response add(Dog dog) {
