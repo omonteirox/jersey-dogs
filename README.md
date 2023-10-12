@@ -11,6 +11,8 @@ Aprendendo a trabalhar com jersey
 - Sistema de notificações para erros
 - Exception de Banco criada
 - Retornos padronizados
+- Implementado DAO pattern
+- Utilizando Factory para gerar os Daos
 
 # O que falta fazer?
 - Adicionar autenticação JWT
