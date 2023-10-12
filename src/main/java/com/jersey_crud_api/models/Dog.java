@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jersey_crud_api.utils.NotificationUtils;
 
 public class Dog extends NotificationUtils implements Serializable {
