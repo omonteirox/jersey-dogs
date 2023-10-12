@@ -13,9 +13,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.jersey_crud_api.models.ModelResponse;
 import com.jersey_crud_api.models.Tutor;
-
-import Services.TutorService;
+import com.jersey_crud_api.services.TutorService;
 
 @Path("tutors")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -26,29 +26,33 @@ public class TutorController {
 	public Response add(Tutor tutor) {
 		try {
 			tutor = tutorService.add(tutor);
-			return Response.status(Status.CREATED).entity("Tutor criado com êxito com o id -> " + tutor.getId()).build();
+			return Response.status(Status.CREATED).entity(new ModelResponse<Tutor>(tutor)).build();
 		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Erro ao criar tutor" + e.getMessage()).build();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new ModelResponse<>("OMT001 - Erro ao criar Tutor")).build();
 		}
 	}
 	@GET
 	public Response getAll(){
+		List<Tutor> dogList;
 		try {
-			List<Tutor> dogList = tutorService.getAll();		
-			return Response.status(Status.OK).entity(dogList).build();
-		} catch (Exception e) {
-			System.err.println("Erro ao Listar tutores -> " + e.getMessage());
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Erro ao Listas tutores").build();
+			dogList = tutorService.getAll();		
+			if (dogList == null) {
+				return Response.status(Status.NO_CONTENT).entity(new ModelResponse<List<Tutor>>(dogList)).build();
+			}
+				}
+		catch (Exception e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new ModelResponse<>("OMT002 - Erro ao listar Tutores")).build();
 		}
+		return Response.status(Status.OK).entity(dogList).build();
 	}
 	@GET
 	@Path("{id}")
 	public Response getById(@PathParam("id")Integer id) {
 		try {
 			Tutor tutor = tutorService.getById(id);
-			return Response.status(Status.OK).entity(tutor).build();
+			return Response.status(Status.OK).entity(new ModelResponse<Tutor>(tutor)).build();
 		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Erro ao listar tutor" + e.getMessage()).build();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new ModelResponse<>("OMT003 - Erro ao listar Tutor")).build();
 		}
 		
 	}
@@ -58,11 +62,11 @@ public class TutorController {
 		try {
 			boolean delete = tutorService.delete(id);
 			if (delete == false) {
-				return Response.status(Status.NOT_FOUND).entity("Nenhum tutor encontrado com esse id").build();	
+				return Response.status(Status.NOT_FOUND).entity(new ModelResponse<>("Tutor não encontrado")).build();	
 			}
 			return Response.status(Status.NO_CONTENT).build();
 		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Erro ao apagar tutor" + e.getMessage()).build();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new ModelResponse<>("OMT004 - Erro ao listar Tutores")).build();
 		}
 	}
 	

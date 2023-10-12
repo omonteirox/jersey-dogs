@@ -14,8 +14,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.jersey_crud_api.models.Dog;
-
-import Services.DogService;
+import com.jersey_crud_api.models.ModelResponse;
+import com.jersey_crud_api.services.DogService;
 
 @Path("dogs")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -27,21 +27,23 @@ public class DogController {
 	public Response add(Dog dog) {
 		try {
 			dog = dogService.add(dog);
-			return Response.status(Status.CREATED).entity("Cachorro criado com êxito com o id -> " + dog.getId()).build();
-		} catch (Exception e) {
-			System.err.println("Erro ao adicionar cachorro -> " + e.getMessage());
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Erro ao criar cachorro").build();
+			if (!dog.getNotifications().isEmpty()) {
+				return Response.status(Status.NOT_ACCEPTABLE).entity(new ModelResponse<List<String>>(dog.getNotifications().toString())).build();
+			}
+			return Response.status(Status.CREATED).entity(new ModelResponse<>(dog)).build();
+		}
+		catch (Exception e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new ModelResponse<>("OMD001 - Erro ao criar Cachorro")).build();
 		}
 	}
 	@GET
 	public Response getAll(){
 		try {
 			List<Dog> dogList = dogService.getAll();
-			return Response.status(Status.OK).entity(dogList).build();
+			return Response.status(Status.OK).entity(new ModelResponse<List<Dog>>(dogList)).build();
 			}			
 		 catch (Exception e) {
-			System.err.println("Erro ao Listar cachorros -> " + e.getMessage());
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Erro ao Listas cachorros").build();
+			 return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new ModelResponse<>("OMD002 - Erro ao listar Cachorros")).build();
 		}
 	}
 	@GET
@@ -50,9 +52,12 @@ public class DogController {
 
 		try {
 			Dog dog = dogService.getById(id);
-			return Response.status(Status.OK).entity(dog).build();
+			if (!dog.getNotifications().isEmpty()) {
+				return Response.status(Status.NOT_ACCEPTABLE).entity(new ModelResponse<List<String>>(dog.getNotifications().toString())).build();
+			}
+			return Response.status(Status.OK).entity(new ModelResponse<>(dog)).build();
 		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Erro ao listar cachorro" + e.getMessage()).build();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new ModelResponse<>("OMD003 - Erro ao lista Cachorro")).build();
 		}
 	}
 	@DELETE
@@ -61,11 +66,11 @@ public class DogController {
 		try {
 			boolean work = dogService.delete(id);
 			if (work == false) {
-				return Response.status(Status.NOT_FOUND).entity("Nenhum cachorro encontrado com esse id").build();	
+				return Response.status(Status.NOT_FOUND).entity(new ModelResponse<>("Nenhum cachorro encontrado com esse id")).build();	
 			}
 			return Response.status(Status.NO_CONTENT).build();
 		} catch (Exception e) {
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Erro ao apagar cachorro" + e.getMessage()).build();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new ModelResponse<>("OMD003 - Erro ao apaga rCachorro")).build();
 		}
 	}
 
